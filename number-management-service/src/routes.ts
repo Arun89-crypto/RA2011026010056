@@ -26,7 +26,17 @@ export default function (app: Express) {
           for (let index = 0; index < response.data.length; index++) {
             // Getting the nums
           }
+        })
+        .catch((error) => {
+          if (axios.isCancel(error)) {
+            console.log("Request cancelled", error.message);
+          } else {
+            console.log("Error", error.message);
+          }
         });
+      setTimeout(() => {
+        source.cancel("Request took too long"); // Cancel the request with a custom message
+      }, timeout);
     });
   });
 }
